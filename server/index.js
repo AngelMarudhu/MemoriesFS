@@ -17,6 +17,8 @@ import {
   likeCount,
 } from './Controllers/Posts.js';
 
+import { signIn, signUp } from './Controllers/User.js';
+
 const CONNECTION_URL =
   'mongodb+srv://marudhupandiyan:marudhu12345@cluster0.9a9i0ru.mongodb.net/?retryWrites=true&w=majority';
 mongoose.set('strictQuery', false);
@@ -42,6 +44,10 @@ app.route('/posts').get(getPosts).post(createPost);
 app.route('/posts/:id').patch(updatePost).delete(deletePost);
 
 app.route('/posts/:id/likepost').patch(likeCount);
+
+// USERS ENDPOINTS
+app.route('/user/signin').post(signIn);
+app.route('/user/signup').post(signUp);
 
 // defaultly mongoose return an promises that's why we used the .then() function and the .catch() function
 mongoose
