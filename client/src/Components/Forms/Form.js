@@ -10,13 +10,13 @@ import { updatePost } from '../../apiaxios/index.js';
 const Form = ({ currentId, setCurrentId }) => {
   // why because every input data file store in this useState value that's why using this
   const [postData, setPostData] = useState({
-    creator: ' ',
     title: ' ',
     content: ' ',
     tags: ' ',
     selectedFile: ' ',
   });
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem('profile'));
 
   // we dont want all post we want only particular post so we have to fine the id and that posts
   let post = useSelector((state) =>
@@ -30,20 +30,20 @@ const Form = ({ currentId, setCurrentId }) => {
     }
   }, [post]);
 
-  // const updatePost = async (id, data) => {
-  //   return console.log(id, data, 'function');
-  // };
-
-  //console.log(currentId, postData, 'postdata');
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log(currentId, postData, 'updated');
     if (currentId) {
-      dispatch(updatePost({ id: currentId, postDatas: postData }));
+      await dispatch(
+        updatePost({
+          id: currentId,
+          postDatas: postData,
+          name: user?.result?.name,
+        })
+      );
       clear();
     } else {
-      dispatch(addPost(postData));
+      await dispatch(addPost({ ...postData, name: user?.result?.name }));
       clear();
     }
   };
@@ -51,14 +51,24 @@ const Form = ({ currentId, setCurrentId }) => {
   const clear = () => {
     setCurrentId(null);
     setPostData({
-      creator: '',
       title: '',
       content: '',
       tags: '',
+      selectedFile: '',
     });
   };
-
   const classes = useStyles();
+
+  if (!user?.result) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant='h6' align='center'>
+          Hey Buddies Please Sign In After Create Your Memorable Memories
+        </Typography>
+      </Paper>
+    );
+  }
+
   return (
     <Paper className={classes.paper}>
       <form
@@ -67,7 +77,7 @@ const Form = ({ currentId, setCurrentId }) => {
         className={`${classes.root} ${classes.form}`}
       >
         <Typography variant='h6'></Typography>
-        <TextField
+        {/* <TextField
           name='creator'
           variant='outlined'
           label='Creator'
@@ -77,7 +87,7 @@ const Form = ({ currentId, setCurrentId }) => {
             // ...post data all data will be the same but we only change creator propery so we using spread operator
             setPostData({ ...postData, creator: e.target.value })
           }
-        />
+        /> */}
         <TextField
           name='title'
           variant='outlined'

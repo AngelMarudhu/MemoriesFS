@@ -10,6 +10,10 @@ import {
 } from '@material-ui/core';
 import GeneralInput from './GeneralInput';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signIn, signUp } from '../../apiaxios/index';
+import { useSelector } from 'react-redux';
 
 const Auth = () => {
   const [formData, setFormData] = useState({
@@ -22,14 +26,25 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auths);
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(formData);
+    // console.log(formData, 'from formdatas');
+    if (isSignUp) {
+      await dispatch(signUp(formData));
+    } else {
+      await dispatch(signIn(formData));
+    }
+    if (user) {
+      navigate('/');
+    }
   };
 
   const handleShowPassword = () => {
@@ -82,7 +97,7 @@ const Auth = () => {
               name='password'
               label='Password'
               handleChange={handleChange}
-              type={showPassword ? 'Text' : 'Password'}
+              type={showPassword ? 'text' : 'password'}
               handleShowPassword={handleShowPassword}
             ></GeneralInput>
             {/* END COMMON */}

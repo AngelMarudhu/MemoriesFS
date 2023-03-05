@@ -29,13 +29,14 @@ export const signIn = async (req, res) => {
       req.body.password,
       existingUser.password
     );
+    console.log(passwordMatch);
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Password doesnt match' });
     }
     // IF WE ARE HERE WE ARE GOING TO CREATE A TOKEN THROUGH THE JWT SO KEEP CONSIOUS
     const token = jwt.sign(
       { email: existingUser.email, id: existingUser._id },
-      'checking',
+      'test',
       {
         expiresIn: '1h',
       }
@@ -50,6 +51,7 @@ export const signIn = async (req, res) => {
 export const signUp = async (req, res) => {
   // first we want to get the email and password from the client through the req.body and {email password} means ES6 destructuring directly fetch the data from the req.body method
   const { email, password, firstName, lastName, confirmPassword } = req.body;
+  console.log({ email, password, firstName, lastName, confirmPassword });
   // AS IM TOLD YOU BEFORE EVERY CONTROLLERS HAVE TRY CATCH BLOCK
   try {
     const existingUser = await UserSchema.findOne({ email });
@@ -67,16 +69,40 @@ export const signUp = async (req, res) => {
       name: `${firstName} ${lastName}`,
     });
 
-    const token = jwt.sign(
-      { email: result.email, id: result._id },
-      'checking',
-      {
-        expiresIn: '1h',
-      }
-    );
+    console.log(result);
+
+    const token = jwt.sign({ email: result.email, id: result._id }, 'test', {
+      expiresIn: '1h',
+    });
     // console.log(token);
+    console.log({ result, token });
     return res.status(201).json({ result, token });
   } catch (error) {
     return res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+// import jwt from 'jsonwebtoken';
+
+// const auth = async (req, res, next) => {
+//   try {
+//     console.log(req.headers);
+//     // array 1 using means if we split the token out token will be stored in 1st array that's why we using don't be worry about that
+//     const token = req.headers.authorization.split('.')[1]; // extranct from header particularly
+
+//     let decoded = jwt.verify(token, 'kadavul');
+//     console.log(decoded);
+//     //   console.log(decoded, 'decodedToken');
+//     // console.log((req.userId = decoded.id));
+
+//     // const decoded = jwt.verify(token, 'checking');
+//     console.log('one');
+//     next();
+//     console.log('two');
+//   } catch (err) {
+//     console.log(err);
+//     res.status(401).json({ message: err });
+//   }
+// };
+
+// export default auth;

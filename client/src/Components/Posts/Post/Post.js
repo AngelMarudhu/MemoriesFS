@@ -19,6 +19,8 @@ import { likePost } from '../../../apiaxios';
 const Post = ({ value, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem('profile'));
+
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -27,22 +29,23 @@ const Post = ({ value, setCurrentId }) => {
         title={value.title}
       />
       <div className={classes.overlay}>
-        <Typography variant='h6'>{value.creator}</Typography>
+        <Typography variant='h6'>{value.name}</Typography>
         <Typography variant='body2'>
-          {' '}
-          {moment(value.createdAt).fromNow()}{' '}
+          {moment(value.createdAt).fromNow()}
         </Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button
-          style={{ color: 'white' }}
-          size='small'
-          onClick={() => {
-            setCurrentId(value._id);
-          }}
-        >
-          <MoreHorizIcon fontSize='default' />
-        </Button>
+        {user?.result && (
+          <Button
+            style={{ color: 'white' }}
+            size='small'
+            onClick={() => {
+              setCurrentId(value._id);
+            }}
+          >
+            <MoreHorizIcon fontSize='default' />
+          </Button>
+        )}
       </div>
       <div className={classes.details}>
         <Typography variant='body2' color='textSecondary' component='h2'>
@@ -57,7 +60,6 @@ const Post = ({ value, setCurrentId }) => {
       >
         {value.title}
       </Typography>
-
       <CardContent>
         <Typography variant='body2' color='textSecondary' component='p'>
           {value.content}
@@ -71,17 +73,20 @@ const Post = ({ value, setCurrentId }) => {
             dispatch(likePost({ id: value._id }));
           }}
         >
-          <ThumbUpAltIcon fontSize='small' /> Like {value.likeCount}
+          <ThumbUpAltIcon fontSize='small' disabled={!user?.result} /> Like{' '}
+          {value.likes.length}
         </Button>
-        <Button
-          size='small'
-          color='primary'
-          onClick={() => {
-            dispatch(deletePost({ id: value._id }));
-          }}
-        >
-          <DeleteIcon fontSize='small' /> Delete
-        </Button>
+        {user?.result && (
+          <Button
+            size='small'
+            color='primary'
+            onClick={() => {
+              dispatch(deletePost({ id: value._id }));
+            }}
+          >
+            <DeleteIcon fontSize='small' /> Delete
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

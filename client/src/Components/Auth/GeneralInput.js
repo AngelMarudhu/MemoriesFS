@@ -12,9 +12,6 @@ const GeneralInput = ({
   type,
   handleShowPassword,
 }) => {
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
   return (
     <Grid item xs={12} sm={half ? 6 : 12}>
       <TextField
@@ -27,10 +24,10 @@ const GeneralInput = ({
         onChange={(e) => handleChange(e)}
         type={type}
         inputProps={
-          name === 'Password' && {
+          name === 'password' && {
             endAdornment: (
               <InputAdornment position='end'>
-                <IconButton onClick={handleSubmit}>
+                <IconButton onClick={handleShowPassword}>
                   {type === 'password' ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
               </InputAdornment>

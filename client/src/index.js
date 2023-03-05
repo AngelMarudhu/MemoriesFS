@@ -4,10 +4,12 @@ import App from './App';
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { mongoSlice } from './Redux/reducers/posts.js';
+import { createAuth } from './Redux/reducers/auth.js';
 
 const store = configureStore({
   reducer: {
     mongos: mongoSlice.reducer,
+    auths: createAuth.reducer,
   },
 });
 

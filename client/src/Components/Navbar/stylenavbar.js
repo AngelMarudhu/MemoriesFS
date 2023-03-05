@@ -31,6 +31,8 @@ export default makeStyles((theme) => ({
   userName: {
     display: 'flex',
     alignItems: 'center',
+    marginLeft: '15px',
+    marginRight: '15px',
   },
   brandContainer: {
     display: 'flex',

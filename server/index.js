@@ -2,7 +2,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import express from 'express';
 import bodyParser from 'body-parser';
-
+import auth from './Middleware/Auth.js';
 // Routes
 
 // Routes End
@@ -39,15 +39,15 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 // if you not give path the pathRoutes will be act all requests, that is the default behaiviour of middlewares, so we want to act particular routes that's why we using /paths this /paths append in your localhost url
 // THIS IS CALLED MOUNTING MIDDLEWARE IN PARTICULAR PATHS
 
-app.route('/posts').get(getPosts).post(createPost);
+app.route('/posts').get(getPosts).post(auth, createPost);
 
-app.route('/posts/:id').patch(updatePost).delete(deletePost);
+app.route('/posts/:id').patch(auth, updatePost).delete(auth, deletePost);
 
-app.route('/posts/:id/likepost').patch(likeCount);
+app.route('/posts/:id/likepost').patch(auth, likeCount);
 
 // USERS ENDPOINTS
-app.route('/user/signin').post(signIn);
-app.route('/user/signup').post(signUp);
+app.route('/users/signin').post(signIn);
+app.route('/users/signup').post(signUp);
 
 // defaultly mongoose return an promises that's why we used the .then() function and the .catch() function
 mongoose
