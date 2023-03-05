@@ -43,7 +43,7 @@ const Auth = () => {
       await dispatch(signIn(formData));
     }
     if (user) {
-      navigate('/');
+      navigate('/posts');
     }
   };
 

@@ -54,7 +54,6 @@ const Form = ({ currentId, setCurrentId }) => {
       title: '',
       content: '',
       tags: '',
-      selectedFile: '',
     });
   };
   const classes = useStyles();

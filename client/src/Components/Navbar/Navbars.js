@@ -16,6 +16,7 @@ const Navbars = () => {
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem('profile'));
+    console.log(storedUser, 'stored user');
     if (storedUser?.result?.name) {
       setUser(storedUser);
     }
@@ -34,20 +35,35 @@ const Navbars = () => {
   //   });
   // }, [location]);
 
+  // WHEN PATH NAME CHANGES AUTOMATICALLY REMOVED THE LOCATL STORAGE ITEMS THROUGH THE USE EFFECT HOOK
+  useEffect(() => {
+    if (location.pathname === '/auth') {
+      localStorage.removeItem('profile');
+      setUser(null);
+    }
+  }, [location]);
+
   const logout = () => {
     localStorage.removeItem('profile');
     setUser(null);
-    navigate('/auth');
+    navigate('/auth', { replace: true });
   };
 
   return (
     <AppBar className={classes.appBar} position='static' color='inherit'>
-      <div className={classes.brandContainer}>
-        <Typography className={classes.heading} variant='h2' align='center'>
-          Marudhu Memories
-        </Typography>
-        <img className={classes.image} src={memories} alt='icon' height='60' />
-      </div>
+      <Button component={Link} to='/posts'>
+        <div className={classes.brandContainer}>
+          <Typography className={classes.heading} variant='h5' align='center'>
+            Marudhu Memories
+          </Typography>
+          <img
+            className={classes.image}
+            src={memories}
+            alt='icon'
+            height='60'
+          />
+        </div>
+      </Button>
       <Toolbar className={classes.toolbar}>
         {user ? (
           <>
