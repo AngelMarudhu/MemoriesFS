@@ -1,5 +1,5 @@
 # Hi Buddies Don't be chaos just simply clone the repository through the link and open your root folder simply enter NPM INSTALL finishd everything.
-# this project is JWT authentication based woriking so when you sign in check in your loca storage the token and user data is created in "profile"
+# this project is JWT authentication based working so when you sign in check in your local storage the token and user data is created in "profile"
 # then start your server in simply npm start in you server path....
 # then also change your mongodb service in atlas setup your cluster and set your database access and deatabase network and place the url link in our server folder i've already mentioned in the server folder
 # I THINK YOU HEARD MANY TIMES FROM THE DEVELOPER I'M ALSO SAYING SAMETHING I MEAN DON'T SHARE THE TOKEN SECURITY KEY ANYONE.......
