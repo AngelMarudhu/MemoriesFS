@@ -4,6 +4,7 @@ import postMessageSchema from '../Models/PostSchema.js';
 
 // every controllers has try catch black and some controllers has asynchronous methods.
 export const getPosts = async (req, res) => {
+  console.log(req.query.page, 'query logging');
   try {
     // why async methos here is when user find some data it will be take some time that's why we want it async
     // find means fetching mongodb datas from mongodb server so initally have empty array in the mongodb
