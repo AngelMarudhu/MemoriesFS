@@ -19,6 +19,18 @@ export const fetchPosts = createAsyncThunk('dataFetching', async () => {
   return response.data;
 });
 
+export const fetchPostsBySearch = createAsyncThunk(
+  'searchGetPosts',
+  async ({ search, tags }) => {
+    console.log(search, tags, 'axios');
+    const response = await API.get(
+      `/posts/search?searchQuery=${search}&tags=${tags}`
+    );
+    console.log(response.data.data, 'fetchBySearchPosts');
+    return response.data.data;
+  }
+);
+
 export const addPost = createAsyncThunk('addPost', async (post) => {
   const response = await API.post('/posts', post);
   return response.data;

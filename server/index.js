@@ -3,9 +3,6 @@ import mongoose from 'mongoose';
 import express from 'express';
 import bodyParser from 'body-parser';
 import auth from './Middleware/Auth.js';
-// Routes
-
-// Routes End
 
 // CONTROLLERS
 
@@ -15,6 +12,7 @@ import {
   updatePost,
   deletePost,
   likeCount,
+  getPostBySearch,
 } from './Controllers/Posts.js';
 
 import { signIn, signUp } from './Controllers/User.js';
@@ -48,6 +46,10 @@ app.route('/posts/:id/likepost').patch(auth, likeCount);
 // USERS ENDPOINTS
 app.route('/users/signin').post(signIn);
 app.route('/users/signup').post(signUp);
+
+// POSTS FETCH BY SEARCHING USERS WISHES.....
+
+app.route('/posts/search').get(getPostBySearch);
 
 // defaultly mongoose return an promises that's why we used the .then() function and the .catch() function
 mongoose

@@ -4,7 +4,6 @@ import postMessageSchema from '../Models/PostSchema.js';
 
 // every controllers has try catch black and some controllers has asynchronous methods.
 export const getPosts = async (req, res) => {
-  console.log(req.query.page, 'query logging');
   try {
     // why async methos here is when user find some data it will be take some time that's why we want it async
     // find means fetching mongodb datas from mongodb server so initally have empty array in the mongodb
@@ -12,6 +11,24 @@ export const getPosts = async (req, res) => {
     res.status(200).json(posts);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const getPostBySearch = async (req, res) => {
+  console.log(req.query, 'request query logging');
+  const { searchQuery, tags } = req.query;
+
+  try {
+    // if your are starting with regex mongoose can easily handle the request and easily find out (I) ignore
+    const title = new RegExp(searchQuery, 'i');
+    const posts = await postMessageSchema.find({
+      // { $or: [ { <expression1> }, { <expression2> }, ... , { <expressionN> } ] }
+      // We can SPLIT Method this string into an array of substrings using the , character as the separate
+      $or: [{ title }, { tags: { $in: tags.split(',') } }],
+    });
+    res.json({ data: posts });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
   }
 };
 

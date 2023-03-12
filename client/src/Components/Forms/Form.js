@@ -53,7 +53,7 @@ const Form = ({ currentId, setCurrentId }) => {
     setPostData({
       title: '',
       content: '',
-      tags: '',
+      tags: '', 
     });
   };
   const classes = useStyles();

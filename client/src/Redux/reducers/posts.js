@@ -70,6 +70,8 @@ export const mongoSlice = createSlice({
       });
     },
 
+    // ==================================================
+
     [api.likePost.pending]: (state, action) => {
       state.loading = true;
     },
@@ -80,6 +82,18 @@ export const mongoSlice = createSlice({
         return post._id === action.payload._id;
       });
       state.value[updatedPost] = action.payload;
+    },
+
+    // ==================================================
+    [api.fetchPostsBySearch.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [api.fetchPostsBySearch.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.value = action.payload;
+    },
+    [api.fetchPostsBySearch.rejected]: (state, action) => {
+      state.loading = true;
     },
   },
 });

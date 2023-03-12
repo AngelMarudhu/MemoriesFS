@@ -31,6 +31,7 @@ const Auth = () => {
   const user = useSelector((state) => state.auths);
 
   const handleChange = (event) => {
+    // event target name based on chaged your values check in your html content there is mentioned name in every field
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
